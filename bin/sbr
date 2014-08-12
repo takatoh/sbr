@@ -19,11 +19,11 @@ Subcommands:
 
 Global Options:
   EndBanner
-  parser.on('-v', '--version', 'Show version.') {
+  parser.on_tail('-v', '--version', 'Show version.') {
     puts "v#{Sbr::VERSION}"
     exit 0
   }
-  parser.on('-h', '--help', 'Show this message.') {
+  parser.on_tail('-h', '--help', 'Show this message.') {
     puts parser.help
     exit 0
   }
