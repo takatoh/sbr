@@ -1,4 +1,6 @@
 require "sbr/version"
+require "sbr/post_photo_command"
+
 
 module Sbr
 
