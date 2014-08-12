@@ -30,15 +30,19 @@ EOB
 
     def exec(argv)
       photofile = argv.shift
-      hc = HTTPClient.new
+      @hc = HTTPClient.new
+      post_photo(photofile)
+    end
+
+    def post_photo(photofile)
       File.open(photofile, "rb") do |file|
         post_data = {
-          "url" => @options[:source],
+          "url"      => @options[:source],
           "page_url" => @options[:page_url],
           "tags"     => @options[:tags],
           "file"     => file
         }
-        res = hc.post(@options[:repository] + "post", post_data)
+        res = @hc.post(@options[:repository] + "post", post_data)
       end
     end
 
