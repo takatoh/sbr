@@ -29,7 +29,7 @@ Global Options:
   }
 
   subcommands = {}
-  subcommands['post'] = PostPhotoCommand.new
+  subcommands['post'] = Sbr::PostPhotoCommand.new
   begin
     parser.order!
     if ARGV.empty?
