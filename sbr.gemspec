@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Sbr::VERSION
   spec.authors       = ["takatoh"]
   spec.email         = ["takatoh.m@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Post photo to Sombrero.}
+  spec.description   = %q{Post photo to Sombrero.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
