@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 
+require 'sbr/subcommand'
 require 'httpclient'
 require 'optparse'
 
