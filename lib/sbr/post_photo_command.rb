@@ -31,8 +31,18 @@ EOB
     def exec(argv)
       photofile = argv.shift
       @hc = HTTPClient.new
-      post_photo(photofile)
+      if File.file?(photofile)
+        post_photo(photofile)
+      elsif File.directory?(photofile)
+        Dir.glob("#{photofile}/*.*").each do |f|
+          if photo?(f)
+            post_photo(f)
+          end
+        end
+      end
     end
+
+    private
 
     def post_photo(photofile)
       File.open(photofile, "rb") do |file|
@@ -44,6 +54,10 @@ EOB
         }
         res = @hc.post(@options[:repository] + "post", post_data)
       end
+    end
+
+    def photo?(file)
+      %w(.jpg .jpeg .png .bmp .gif).include?(File.extname(file))
     end
 
   end
