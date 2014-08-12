@@ -45,6 +45,7 @@ EOB
     private
 
     def post_photo(photofile)
+      puts photofile
       File.open(photofile, "rb") do |file|
         post_data = {
           "url"      => @options[:source],
