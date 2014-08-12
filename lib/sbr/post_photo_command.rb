@@ -3,6 +3,7 @@
 
 require 'sbr/subcommand'
 require 'httpclient'
+require 'nokogiri'
 require 'optparse'
 
 
@@ -54,6 +55,13 @@ EOB
           "file"     => file
         }
         res = @hc.post(@options[:repository] + "post", post_data)
+        doc = Nokogiri::HTML.parse(res.body)
+        result = doc.search("h3").text
+        if result =~ /Rejected/
+          puts "  => #{result.gsub("\n", "").gsub(/ +/, " ").strip}"
+        else
+          puts "  => Accepted."
+        end
       end
     end
 
