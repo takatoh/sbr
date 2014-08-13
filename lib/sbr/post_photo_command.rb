@@ -37,7 +37,13 @@ EOB
       @hc = HTTPClient.new
       if @options[:input]
         photos = YAML.load_file(@options[:input])
-        photos.each {|photo| post_photo(photo["file"], photo) }
+        photos.each do |photo|
+          if File.exist?(photo["file"])
+            post_photo(photo["file"], photo)
+          else
+            puts "Error(Skip): File not found: #{photo["file"]}"
+          end
+        end
       elsif File.file?(photofile)
         post_photo(photofile)
       elsif File.directory?(photofile)
