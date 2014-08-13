@@ -4,6 +4,7 @@
 require 'sbr/subcommand'
 require 'httpclient'
 require 'nokogiri'
+require 'yaml'
 require 'optparse'
 
 
@@ -16,7 +17,8 @@ module Sbr
         :repository => "",
         :source     => "",
         :page_url   => "",
-        :tags       => ""
+        :tags       => "",
+        :input      => nil
       }
       @parser = OptionParser.new
       @parser.banner =<<EOB
@@ -27,12 +29,16 @@ EOB
       @parser.on('-s', '--source=SOURCE', 'Set source of photo.'){|v| @options[:source] = v}
       @parser.on('-p', '--page_url=URL', 'Set webpage url.'){|v| @options[:page_url] = v}
       @parser.on('-t', '--tags=TAGS', 'Set tags.'){|v| @options[:tags] = v}
+      @parser.on('-i', '--input=YAML', 'Post photo in YAML indtead photofile.'){|v| @options[:input] = v}
     end
 
     def exec(argv)
       photofile = argv.shift
       @hc = HTTPClient.new
-      if File.file?(photofile)
+      if @options[:input]
+        photos = YAML.load_file(@options[:input])
+        photos.each {|photo| post_photo(photo["file"], photo) }
+      elsif File.file?(photofile)
         post_photo(photofile)
       elsif File.directory?(photofile)
         Dir.glob("#{photofile}/*.*").each do |f|
@@ -45,13 +51,13 @@ EOB
 
     private
 
-    def post_photo(photofile)
+    def post_photo(photofile, opts = {})
       puts photofile
       File.open(photofile, "rb") do |file|
         post_data = {
-          "url"      => @options[:source],
-          "page_url" => @options[:page_url],
-          "tags"     => @options[:tags],
+          "url"      => opts["url"]      || @options[:source],
+          "page_url" => opts["page_url"] || @options[:page_url],
+          "tags"     => opts["tags"]     || @options[:tags],
           "file"     => file
         }
         res = @hc.post(@options[:repository] + "post", post_data)
