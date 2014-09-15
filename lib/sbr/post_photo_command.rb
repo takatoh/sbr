@@ -41,7 +41,8 @@ EOB
           if File.exist?(photo["file"])
             post_photo(photo["file"], photo)
           else
-            puts "Error(Skip): File not found: #{photo["file"]}"
+            puts photo["file"]
+            puts "  => Error(Skip): File not found."
           end
         end
       elsif File.file?(photofile)
