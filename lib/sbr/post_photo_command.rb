@@ -30,6 +30,7 @@ EOB
       @parser.on('-p', '--page_url=URL', 'Set webpage url.'){|v| @options[:page_url] = v}
       @parser.on('-t', '--tags=TAGS', 'Set tags.'){|v| @options[:tags] = v}
       @parser.on('-i', '--input=YAML', 'Post photo in YAML indtead photofile.'){|v| @options[:input] = v}
+      @counter = {accepted: 0, rejected: 0, error: 0}
     end
 
     def exec(argv)
@@ -43,6 +44,7 @@ EOB
           else
             puts photo["file"]
             puts "  => Error(Skip): File not found."
+            @counter[:error] += 1
           end
         end
       elsif File.file?(photofile)
@@ -54,6 +56,11 @@ EOB
           end
         end
       end
+      puts ""
+      puts "Accepted: #{@counter[:accepted]}"
+      puts "Rejected: #{@counter[:rejected]}"
+      puts "Error:    #{@counter[:error]}"
+      puts "Total:    #{@counter[:accepted] + @counter[:rejected] + @counter[:error]}"
     end
 
     private
@@ -72,8 +79,10 @@ EOB
         result = doc.search("h3").text
         if result =~ /Rejected/
           puts "  => #{result.gsub("\n", "").gsub(/ +/, " ").strip}"
+          @counter[:rejected] += 1
         else
           puts "  => Accepted."
+          @counter[:accepted] += 1
         end
       end
     end
