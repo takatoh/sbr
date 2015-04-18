@@ -5,6 +5,7 @@ require 'sbr/subcommand'
 require 'httpclient'
 require 'nokogiri'
 require 'yaml'
+require 'json'
 require 'optparse'
 
 
@@ -18,7 +19,8 @@ module Sbr
         :source     => "",
         :page_url   => "",
         :tags       => "",
-        :input      => nil
+        :input      => nil,
+        :api        => false
       }
       @parser = OptionParser.new
       @parser.banner =<<EOB
@@ -30,6 +32,7 @@ EOB
       @parser.on('-p', '--page_url=URL', 'Set webpage url.'){|v| @options[:page_url] = v}
       @parser.on('-t', '--tags=TAGS', 'Set tags.'){|v| @options[:tags] = v}
       @parser.on('-i', '--input=YAML', 'Post photo in YAML indtead photofile.'){|v| @options[:input] = v}
+      @parser.on('-a', '--use-api', 'Use API to post.'){|v| @options[:api] = true}
       @counter = {accepted: 0, rejected: 0, error: 0}
     end
 
@@ -74,15 +77,38 @@ EOB
           "tags"     => opts["tags"]     || @options[:tags],
           "file"     => file
         }
-        res = @hc.post(@options[:repository] + "post", post_data)
-        doc = Nokogiri::HTML.parse(res.body)
-        result = doc.search("h3").text
-        if result =~ /Rejected/
-          puts "  => #{result.gsub("\n", "").gsub(/ +/, " ").strip}"
-          @counter[:rejected] += 1
+        post_url = if @options[:api]
+          @options[:repository] + "api/post"
         else
-          puts "  => Accepted."
-          @counter[:accepted] += 1
+          @options[:repository] + "post"
+        end
+        res = @hc.post(post_url, post_data)
+        if @options[:api]
+          result = JSON.parse(res.body)
+          if result["status"] == "Accepted"
+            puts "  => Accepted."
+            @counter[:accepted] += 1
+          else
+            case result["reason"]
+            when "Already exist"
+              md5 = result["photo"]["md5"]
+              puts "  => Rejected: Already exist(#{md5})."
+              @counter[:rejected] += 1
+            when "Small photo"
+              puts "  => Rejected: Small photo."
+              @counter[:rejected] += 1
+            end
+          end
+        else
+          doc = Nokogiri::HTML.parse(res.body)
+          result = doc.search("h3").text
+          if result =~ /Rejected/
+            puts "  => #{result.gsub("\n", "").gsub(/ +/, " ").strip}"
+            @counter[:rejected] += 1
+          else
+            puts "  => Accepted."
+            @counter[:accepted] += 1
+          end
         end
       end
     end
