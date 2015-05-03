@@ -19,6 +19,7 @@ module Sbr
         :source     => "",
         :page_url   => "",
         :tags       => "",
+        :add_tags   => false,
         :input      => nil,
         :api        => false
       }
@@ -32,8 +33,9 @@ EOB
       @parser.on('-p', '--page_url=URL', 'Set webpage url.'){|v| @options[:page_url] = v}
       @parser.on('-t', '--tags=TAGS', 'Set tags.'){|v| @options[:tags] = v}
       @parser.on('-i', '--input=YAML', 'Post photo in YAML indtead photofile.'){|v| @options[:input] = v}
+      @parser.on('-A', '--add-tags', 'Add tags to be rejected. Use with -a option.'){|v| @options[:add_tags] = true}
       @parser.on('-a', '--use-api', 'Use API to post.'){|v| @options[:api] = true}
-      @counter = {accepted: 0, rejected: 0, error: 0}
+      @counter = {accepted: 0, rejected: 0, add_tags: 0, error: 0}
     end
 
     def exec(argv)
@@ -60,10 +62,11 @@ EOB
         end
       end
       puts ""
-      puts "Accepted: #{@counter[:accepted]}"
-      puts "Rejected: #{@counter[:rejected]}"
-      puts "Error:    #{@counter[:error]}"
-      puts "Total:    #{@counter[:accepted] + @counter[:rejected] + @counter[:error]}"
+      puts "Accepted:   #{@counter[:accepted]}"
+      puts "Rejected:   #{@counter[:rejected]}"
+      puts "Added tags: #{@counter[:add_tags]}"
+      puts "Error:      #{@counter[:error]}"
+      puts "Total:      #{@counter[:accepted] + @counter[:rejected] + @counter[:error]}"
     end
 
     private
@@ -75,6 +78,7 @@ EOB
           "url"      => opts["url"]      || @options[:source],
           "page_url" => opts["page_url"] || @options[:page_url],
           "tags"     => opts["tags"]     || @options[:tags],
+          "add_tags" => opts["add_tags"],
           "file"     => file
         }
         post_url = if @options[:api]
@@ -88,6 +92,9 @@ EOB
           if result["status"] == "Accepted"
             puts "  => Accepted."
             @counter[:accepted] += 1
+          elsif result["status"] == "Add tags"
+            puts "  => Add tags: #{result["photo"]["addedTags"].join(" ")}"
+            @counter[:add_tags] += 1
           else
             case result["reason"]
             when "Already exist"
