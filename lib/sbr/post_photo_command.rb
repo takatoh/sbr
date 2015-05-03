@@ -93,7 +93,7 @@ EOB
             puts "  => Accepted."
             @counter[:accepted] += 1
           elsif result["status"] == "Add tags"
-            puts "  => Add tags: #{result["photo"]["addedTags"].join(" ")}"
+            puts "  => Added tags: #{result["photo"]["addedTags"].join(" ")}"
             @counter[:add_tags] += 1
           else
             case result["reason"]
