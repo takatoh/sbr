@@ -90,19 +90,21 @@ EOB
         if @options[:api]
           result = JSON.parse(res.body)
           if result["status"] == "Accepted"
-            puts "  => Accepted."
+            photo = result["photo"]
+            puts "  => Accepted: id=#{photo['id']} size=#{photo['width']}x#{photo['height']}"
             @counter[:accepted] += 1
           elsif result["status"] == "Add tags"
-            puts "  => Added tags: #{result["photo"]["addedTags"].join(" ")}"
+            photo = result["photo"]
+            puts "  => Added tags: #{photo["addedTags"].join(" ")} (id=#{photo['id']})"
             @counter[:added_tags] += 1
           else
             case result["reason"]
             when "Already exist"
-              md5 = result["photo"]["md5"]
-              puts "  => Rejected: Already exist(#{md5})."
+              photo = result["photo"]
+              puts "  => Rejected: Already exist(id=#{photo['id']})"
               @counter[:rejected] += 1
             when "Small photo"
-              puts "  => Rejected: Small photo."
+              puts "  => Rejected: Small photo"
               @counter[:rejected] += 1
             end
           end
