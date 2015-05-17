@@ -3,7 +3,6 @@
 
 require 'sbr/subcommand'
 require 'httpclient'
-require 'nokogiri'
 require 'yaml'
 require 'json'
 require 'optparse'
@@ -34,7 +33,6 @@ EOB
       @parser.on('-t', '--tags=TAGS', 'Set tags.'){|v| @options[:tags] = v}
       @parser.on('-i', '--input=YAML', 'Post photo in YAML indtead photofile.'){|v| @options[:input] = v}
       @parser.on('-A', '--add-tags', 'Add tags to be rejected. Use with -a option.'){|v| @options[:add_tags] = true}
-      @parser.on('-a', '--use-api', 'Use API to post.'){|v| @options[:api] = true}
       @counter = {accepted: 0, rejected: 0, added_tags: 0, error: 0}
     end
 
@@ -81,42 +79,26 @@ EOB
           "add_tags" => opts["add_tags"],
           "file"     => file
         }
-        post_url = if @options[:api]
-          @options[:repository] + "api/post"
-        else
-          @options[:repository] + "post"
-        end
+        post_url = @options[:repository] + "api/post"
         res = @hc.post(post_url, post_data)
-        if @options[:api]
-          result = JSON.parse(res.body)
-          if result["status"] == "Accepted"
-            photo = result["photo"]
-            puts "  => Accepted: id=#{photo['id']} size=#{photo['width']}x#{photo['height']}"
-            @counter[:accepted] += 1
-          elsif result["status"] == "Add tags"
-            photo = result["photo"]
-            puts "  => Added tags: #{photo["addedTags"].join(" ")} (id=#{photo['id']})"
-            @counter[:added_tags] += 1
-          else
-            case result["reason"]
-            when "Already exist"
-              photo = result["photo"]
-              puts "  => Rejected: Already exist(id=#{photo['id']})"
-              @counter[:rejected] += 1
-            when "Small photo"
-              puts "  => Rejected: Small photo"
-              @counter[:rejected] += 1
-            end
-          end
+        result = JSON.parse(res.body)
+        if result["status"] == "Accepted"
+          photo = result["photo"]
+          puts "  => Accepted: id=#{photo['id']} size=#{photo['width']}x#{photo['height']}"
+          @counter[:accepted] += 1
+        elsif result["status"] == "Add tags"
+          photo = result["photo"]
+          puts "  => Added tags: #{photo["addedTags"].join(" ")} (id=#{photo['id']})"
+          @counter[:added_tags] += 1
         else
-          doc = Nokogiri::HTML.parse(res.body)
-          result = doc.search("h3").text
-          if result =~ /Rejected/
-            puts "  => #{result.gsub("\n", "").gsub(/ +/, " ").strip}"
+          case result["reason"]
+          when "Already exist"
+            photo = result["photo"]
+            puts "  => Rejected: Already exist(id=#{photo['id']})"
             @counter[:rejected] += 1
-          else
-            puts "  => Accepted."
-            @counter[:accepted] += 1
+          when "Small photo"
+            puts "  => Rejected: Small photo"
+            @counter[:rejected] += 1
           end
         end
       end
