@@ -18,9 +18,7 @@ module Sbr
         :source     => "",
         :page_url   => "",
         :tags       => "",
-        :add_tags   => false,
-        :input      => nil,
-        :api        => false
+        :input      => nil
       }
       @parser = OptionParser.new
       @parser.banner =<<EOB
@@ -32,7 +30,7 @@ EOB
       @parser.on('-p', '--page_url=URL', 'Set webpage url.'){|v| @options[:page_url] = v}
       @parser.on('-t', '--tags=TAGS', 'Set tags.'){|v| @options[:tags] = v}
       @parser.on('-i', '--input=YAML', 'Post photo in YAML indtead photofile.'){|v| @options[:input] = v}
-      @parser.on('-A', '--add-tags', 'Add tags to be rejected. Use with -a option.'){|v| @options[:add_tags] = true}
+      @parser.on('-a', '--add-tags', 'Add tags to be rejected. Use with -a option.'){|v| @options[:add_tags] = true}
       @counter = {accepted: 0, rejected: 0, added_tags: 0, error: 0}
     end
 
@@ -76,9 +74,9 @@ EOB
           "url"      => opts["url"]      || @options[:source],
           "page_url" => opts["page_url"] || @options[:page_url],
           "tags"     => opts["tags"]     || @options[:tags],
-          "add_tags" => opts["add_tags"],
           "file"     => file
         }
+        post_data["add_tags"] = true if opts["add_tabs"] || @options[:add_tags]
         post_url = @options[:repository] + "api/post"
         res = @hc.post(post_url, post_data)
         result = JSON.parse(res.body)
