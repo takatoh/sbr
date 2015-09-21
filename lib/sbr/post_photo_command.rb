@@ -76,7 +76,7 @@ EOB
           "tags"     => opts["tags"]     || @options[:tags],
           "file"     => file
         }
-        post_data["add_tags"] = true if opts["add_tabs"] || @options[:add_tags]
+        post_data["add_tags"] = true if opts["add_tags"] || @options[:add_tags]
         post_url = @options[:repository] + "api/post"
         res = @hc.post(post_url, post_data)
         result = JSON.parse(res.body)
