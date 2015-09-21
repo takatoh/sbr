@@ -30,7 +30,7 @@ EOB
       @parser.on('-p', '--page_url=URL', 'Set webpage url.'){|v| @options[:page_url] = v}
       @parser.on('-t', '--tags=TAGS', 'Set tags.'){|v| @options[:tags] = v}
       @parser.on('-i', '--input=YAML', 'Post photo in YAML indtead photofile.'){|v| @options[:input] = v}
-      @parser.on('-a', '--add-tags', 'Add tags to be rejected. Use with -a option.'){|v| @options[:add_tags] = true}
+      @parser.on('-a', '--add-tags', 'Add tags to be rejected.'){|v| @options[:add_tags] = true}
       @counter = {accepted: 0, rejected: 0, added_tags: 0, error: 0}
     end
 
