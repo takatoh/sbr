@@ -38,9 +38,9 @@ EOB
     def exec(argv)
       photourl = argv.shift
       opts = {
-       :page_url => @options[:page_url],
-       :tags     => @options[:tags],
-       :force    => @options[:force]
+       "page_url" => @options[:page_url],
+       "tags"     => @options[:tags],
+       "force"    => @options[:force]
       }
       clip_photo(photourl, opts)
       puts ""
