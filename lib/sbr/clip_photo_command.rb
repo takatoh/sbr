@@ -10,53 +10,39 @@ require 'optparse'
 
 module Sbr
 
-  class PostPhotoCommand < Subcommand
+  class ClipPhotoCommand < Subcommand
 
     def initialize
       @options = {
         :repository => "",
-        :source     => "",
+        :url        => "",
         :page_url   => "",
         :tags       => "",
-        :input      => nil
+        :force      => false
       }
       @parser = OptionParser.new
       @parser.banner =<<EOB
-  #{@parser.program_name} post - Post photo(s).
-  Usage: #{@parser.program_name} post [options] <photofile>
+  #{@parser.program_name} clip - Clip photo.
+  Usage: #{@parser.program_name} clip [options] <photourl>
 EOB
       @parser.on('-R', '--repository=URL', 'Set repository url.'){|v| @options[:repository] = v}
-      @parser.on('-s', '--source=SOURCE', 'Set source of photo.'){|v| @options[:source] = v}
+      @parser.on('-u', '--url=URL', 'Set URL of photo.'){|v| @options[:url] = v}
       @parser.on('-p', '--page_url=URL', 'Set webpage url.'){|v| @options[:page_url] = v}
       @parser.on('-t', '--tags=TAGS', 'Set tags.'){|v| @options[:tags] = v}
-      @parser.on('-i', '--input=YAML', 'Post photo in YAML indtead photofile.'){|v| @options[:input] = v}
+      @parser.on('-f', '--force', 'Force clip.'){|v| @options[:force] = true}
       @parser.on('-a', '--add-tags', 'Add tags to be rejected.'){|v| @options[:add_tags] = true}
       @counter = {accepted: 0, rejected: 0, added_tags: 0, error: 0}
+      @hc = HTTPClient.new
     end
 
     def exec(argv)
-      photofile = argv.shift
-      @hc = HTTPClient.new
-      if @options[:input]
-        photos = YAML.load_file(@options[:input])
-        photos.each do |photo|
-          if File.exist?(photo["file"])
-            post_photo(photo["file"], photo)
-          else
-            puts photo["file"]
-            puts "  => Error(Skip): File not found."
-            @counter[:error] += 1
-          end
-        end
-      elsif File.file?(photofile)
-        post_photo(photofile)
-      elsif File.directory?(photofile)
-        Dir.glob("#{photofile}/*.*").each do |f|
-          if photo?(f)
-            post_photo(f)
-          end
-        end
-      end
+      photourl = argv.shift
+      opts = {
+       "page_url" => @options[:page_url],
+       "tags"     => @options[:tags],
+       "force"    => @options[:force]
+      }
+      clip_photo(photourl, opts)
       puts ""
       puts "Accepted:   #{@counter[:accepted]}"
       puts "Rejected:   #{@counter[:rejected]}"

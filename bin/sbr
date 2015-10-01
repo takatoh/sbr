@@ -16,6 +16,7 @@ Usage: #{parser.program_name} <subcommand> [options] [args]
 
 Subcommands:
     post        Post photo(s).
+    clip        Clip photo.
 
 Global Options:
   EndBanner
@@ -30,6 +31,7 @@ Global Options:
 
   subcommands = {}
   subcommands['post'] = Sbr::PostPhotoCommand.new
+  subcommands['clip'] = Sbr::ClipPhotoCommand.new
   begin
     parser.order!
     if ARGV.empty?
