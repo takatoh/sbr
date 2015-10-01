@@ -52,7 +52,7 @@ module Sbr
     def clip_photo(photourl, opts = {})
       puts photourl
       post_data = {
-        "url"      => url,
+        "url"      => photourl,
         "page_url" => opts["page_url"],
         "tags"     => opts["tags"],
         "force"    => opts["force"]
