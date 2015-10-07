@@ -1,5 +1,9 @@
 # -*- encoding: utf-8 -*-
 
+
+require 'json'
+
+
 module Sbr
 
   class Subcommand
