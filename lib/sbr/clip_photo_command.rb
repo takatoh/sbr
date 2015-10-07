@@ -24,7 +24,6 @@ module Sbr
   Usage: #{@parser.program_name} clip [options] <photourl>
 EOB
       @parser.on('-R', '--repository=URL', 'Set repository url.'){|v| @options[:repository] = v}
-      @parser.on('-u', '--url=URL', 'Set URL of photo.'){|v| @options[:url] = v}
       @parser.on('-p', '--page_url=URL', 'Set webpage url.'){|v| @options[:page_url] = v}
       @parser.on('-t', '--tags=TAGS', 'Set tags.'){|v| @options[:tags] = v}
       @parser.on('-f', '--force', 'Force clip.'){|v| @options[:force] = true}
