@@ -27,7 +27,7 @@ module Sbr
 EOB
       @parser.on('-R', '--repository=URL', 'Set repository url.'){|v| @options[:repository] = v}
       @parser.on('-s', '--source=SOURCE', 'Set source of photo.'){|v| @options[:source] = v}
-      @parser.on('-p', '--page_url=URL', 'Set webpage url.'){|v| @options[:page_url] = v}
+      @parser.on('-p', '--page-url=URL', 'Set webpage url.'){|v| @options[:page_url] = v}
       @parser.on('-t', '--tags=TAGS', 'Set tags.'){|v| @options[:tags] = v}
       @parser.on('-i', '--input=YAML', 'Post photo in YAML indtead photofile.'){|v| @options[:input] = v}
       @parser.on('-a', '--add-tags', 'Add tags to be rejected.'){|v| @options[:add_tags] = true}
