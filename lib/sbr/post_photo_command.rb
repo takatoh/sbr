@@ -4,7 +4,6 @@
 require 'sbr/subcommand'
 require 'httpclient'
 require 'yaml'
-require 'json'
 require 'optparse'
 
 
