@@ -59,6 +59,7 @@ module Sbr
         "url"      => photourl,
         "page_url" => opts["page_url"],
         "tags"     => opts["tags"],
+        "add_tags" => opts["add_tags"],
         "force"    => opts["force"]
       }
       post_url = @options[:repository] + "api/clip"
