@@ -30,11 +30,11 @@ EOB
       @parser.on('-f', '--force', 'Force clip.'){|v| @options[:force] = true}
       @parser.on('-a', '--add-tags', 'Add tags to be rejected.'){|v| @options[:add_tags] = true}
       @counter = {accepted: 0, rejected: 0, added_tags: 0, error: 0}
-      @hc = HTTPClient.new
     end
 
     def exec(argv)
       photourl = argv.shift
+      @hc = HTTPClient.new
       opts = {
        "page_url" => @options[:page_url],
        "tags"     => @options[:tags],
