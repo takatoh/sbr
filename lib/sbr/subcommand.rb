@@ -35,7 +35,7 @@ module Sbr
           photo = result["photo"]
           puts "  => Accepted: id=#{photo['id']} size=#{photo['width']}x#{photo['height']}"
           @counter[:accepted] += 1
-        elsif result["status"] == "Add tags"
+        elsif result["status"] == "Added tags"
           photo = result["photo"]
           puts "  => Added tags: #{photo["addedTags"].join(" ")} (id=#{photo['id']})"
           @counter[:added_tags] += 1
@@ -69,7 +69,7 @@ module Sbr
         photo = result["photo"]
         puts "  => Accepted: id=#{photo['id']} size=#{photo['width']}x#{photo['height']}"
         @counter[:accepted] += 1
-      elsif result["status"] == "Add tags"
+      elsif result["status"] == "Added tags"
         photo = result["photo"]
         puts "  => Added tags: #{photo["addedTags"].join(" ")} (id=#{photo['id']})"
         @counter[:added_tags] += 1
