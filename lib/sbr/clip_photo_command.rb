@@ -13,7 +13,6 @@ module Sbr
     def initialize
       @options = {
         :repository => "",
-        :url        => "",
         :page_url   => "",
         :tags       => "",
         :add_tags   => false,
