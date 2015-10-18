@@ -29,7 +29,7 @@ module Sbr
       @background_images = []
     end
 
-    def crawl
+    def scrape
       $stderr.puts "Start crawling: #{@url}\n" if @options[:verbose]
       begin
         g = ContentGetter.new(@url, @proxy_host, @proxy_port, @options)
@@ -38,10 +38,10 @@ module Sbr
         @linked_images.concat(g.pick_aimg)
         frames = g.pick_frame
         frames.each do |frm|
-          c = PCrawler.new(frm, @options)
-          c.crawl
-          @embeded_images.concat(c.embeded_images)
-          @linked_images.concat(c.linked_images)
+          s = Scraper.new(frm, @options)
+          s.scrape
+          @embeded_images.concat(s.embeded_images)
+          @linked_images.concat(s.linked_images)
         end
         @background_images = g.pick_bg_images if @options[:include_bg_image]
         linked_pages = g.pick_linked_pages
