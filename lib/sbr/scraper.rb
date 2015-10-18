@@ -44,18 +44,18 @@ module Sbr
           @linked_images.concat(s.linked_images)
         end
         @background_images = g.pick_bg_images if @options[:include_bg_image]
-        linked_pages = g.pick_linked_pages
-        if @options[:rec].nil? || @options[:rec] <= 1
-          @linked_pages.concat(linked_pages).sort.uniq
-        else
-          opts2 = @options.dup
-          opts2[:rec] = @options[:rec] - 1
-          linked_pages.each do |lp|
-            next if @linked_pages.member?(lp)
-            @linked_pages << lp
-            crawl(lp, opts2)
-          end
-        end
+#        linked_pages = g.pick_linked_pages
+#        if @options[:rec].nil? || @options[:rec] <= 1
+#          @linked_pages.concat(linked_pages).sort.uniq
+#        else
+#          opts2 = @options.dup
+#          opts2[:rec] = @options[:rec] - 1
+#          linked_pages.each do |lp|
+#            next if @linked_pages.member?(lp)
+#            @linked_pages << lp
+#            crawl(lp, opts2)
+#          end
+#        end
         self
       rescue ContentGetter::UnwelcomeResponse => err
       rescue => err
