@@ -17,6 +17,7 @@ Usage: #{parser.program_name} <subcommand> [options] [args]
 Subcommands:
     post        Post photo(s).
     clip        Clip photo.
+    scrape      Scrape page.
 
 Global Options:
   EndBanner
@@ -30,8 +31,9 @@ Global Options:
   }
 
   subcommands = {}
-  subcommands['post'] = Sbr::PostPhotoCommand.new
-  subcommands['clip'] = Sbr::ClipPhotoCommand.new
+  subcommands['post']   = Sbr::PostPhotoCommand.new
+  subcommands['clip']   = Sbr::ClipPhotoCommand.new
+  subcommands['scrape'] = Sbr::ScrapePageCommand.new
   begin
     parser.order!
     if ARGV.empty?
