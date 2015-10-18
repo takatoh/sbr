@@ -68,7 +68,7 @@ module Sbr
 
     class ContentGetter
 
-      include ImageTypes
+      IMAGE_TYPES = %w( .jpg .jpeg .png .bmp .gif )
 
       class UnwelcomeResponse < StandardError; end
 
@@ -95,7 +95,7 @@ module Sbr
       def pick_img
         img = @root.search("img").map{|i| i["src"]} + @root.search("img").map{|i| i["SRC"]}
         img = img.compact.select do |l|
-          included_type?(l)
+          image?(l)
         end.map{|l| url_clean(full_url(l)) }.sort.uniq.map do |i|
           { :image_url => i, :page_url => @url }
         end
@@ -109,7 +109,7 @@ module Sbr
        def pick_aimg
         img = @root.search("a").map{|i| i["href"]} + @root.search("a").map{|i| i["HREF"]}
         img = img.compact.select do |l|
-          included_type?(l)
+          image?(l)
         end.map do |l|
           url_clean(full_url(l))
         end.sort.uniq.map do |i|
@@ -128,7 +128,7 @@ module Sbr
           if l.nil?
             false
           else
-            !included_type?(l)
+            !image?(l)
           end
         end.map do |l|
           url_clean(full_url(l).sub(/#.+\z/, ""))
@@ -182,6 +182,12 @@ module Sbr
       def dirname(path)
         /\/[^\/]*\z/.match(path).pre_match
       end
+
+      def image?(url)
+        ext = File.extname(url.sub(/\?.+\z/, ""))
+        IMAGE_TYPES.include?(ext)
+      end
+
     end   # of class ContentGetter
 
   end   # of class Scraper
