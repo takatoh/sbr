@@ -25,6 +25,7 @@ module Sbr
 EOB
       @parser.on('-R', '--repository=URL', 'Set repository url.'){|v| @options[:repository] = v}
       @parser.on('-p', '--page-url=URL', 'Set webpage url.'){|v| @options[:page_url] = v}
+      @parser.on('-i', '--input=FILE', 'Input URL from specified FILE.'){|v| @options[:input] = v}
       @parser.on('-t', '--tags=TAGS', 'Set tags.'){|v| @options[:tags] = v}
       @parser.on('-f', '--force', 'Force clip.'){|v| @options[:force] = true}
       @parser.on('-a', '--add-tags', 'Add tags to be rejected.'){|v| @options[:add_tags] = true}
@@ -32,15 +33,21 @@ EOB
     end
 
     def exec(argv)
-      photourl = argv.shift
       @hc = HTTPClient.new
-      opts = {
-       "page_url" => @options[:page_url],
-       "tags"     => @options[:tags],
-       "add_tags" => @options[:add_tags],
-       "force"    => @options[:force]
-      }
-      clip_photo(photourl, opts)
+      photos = if @options[:input]
+        File.readlines(@options[:input]).map{|l| l.chomp }
+      else
+        [argv.shift]
+      end
+      photos.each do |photourl|
+        opts = {
+         "page_url" => @options[:page_url],
+         "tags"     => @options[:tags],
+         "add_tags" => @options[:add_tags],
+         "force"    => @options[:force]
+        }
+        clip_photo(photourl, opts)
+      end
       puts ""
       puts "Accepted:   #{@counter[:accepted]}"
       puts "Rejected:   #{@counter[:rejected]}"
