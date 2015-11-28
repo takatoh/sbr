@@ -48,13 +48,7 @@ Global Options:
     $stderr.puts parser.help
     exit 1
   end
-  begin
-    cmd.parse(ARGV)
-  rescue OptionParser::ParseError => err
-    $stderr.puts err.message
-    $stderr.puts cmd.help
-    exit 1
-  end
+  cmd.parse(ARGV)
   cmd.exec(ARGV)
 end
 

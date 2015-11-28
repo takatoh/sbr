@@ -9,7 +9,13 @@ module Sbr
   class Subcommand
 
     def parse(argv)
-      @parser.parse! argv
+      begin
+        @parser.parse!(argv)
+      rescue OptionParser::ParseError => err
+        $stderr.puts err.message
+        $stderr.puts @parser.help
+        exit 1
+      end
     end
 
     def help
