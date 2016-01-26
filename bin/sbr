@@ -34,6 +34,7 @@ Global Options:
   subcommands['post']   = Sbr::PostPhotoCommand.new
   subcommands['clip']   = Sbr::ClipPhotoCommand.new
   subcommands['scrape'] = Sbr::ScrapePageCommand.new
+  subcommands['config'] = Sbr::ConfigCommand.new
   begin
     parser.order!
     if ARGV.empty?
