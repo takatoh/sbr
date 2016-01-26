@@ -11,7 +11,11 @@ module Sbr
 
     def initialize
       @config_file = "#{ENV["HOME"]}/.sbrconfig.yml"
-      @config = YAML.load_file(@config_file)
+      begin
+        @config = YAML.load_file(@config_file)
+      rescue
+        @config = {}
+      end
     end
 
     def parse(argv)
