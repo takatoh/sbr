@@ -18,6 +18,7 @@ Subcommands:
     post        Post photo(s).
     clip        Clip photo.
     scrape      Scrape page.
+    config      Set or get config.
 
 Global Options:
   EndBanner
