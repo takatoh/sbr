@@ -2,11 +2,17 @@
 
 
 require 'json'
+require 'yaml'
 
 
 module Sbr
 
   class Subcommand
+
+    def initialize
+      @config_file = "#{ENV["HOME"]}/.sbrconfig.yml"
+      @config = YAML.load_file(@config_file)
+    end
 
     def parse(argv)
       begin

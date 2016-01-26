@@ -2,7 +2,6 @@
 
 
 require 'sbr/subcommand'
-require 'yaml'
 require 'optparse'
 
 
@@ -11,8 +10,7 @@ module Sbr
   class ConfigCommand < Subcommand
 
     def initialize
-      @config_file = "#{ENV["HOME"]}/.sbrconfig.yml"
-      @config = YAML.load_file(@config_file)
+      super
       @parser = OptionParser.new
       @parser.banner =<<EOB
   #{@parser.program_name} config - Set or get config.
