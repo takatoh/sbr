@@ -11,8 +11,9 @@ module Sbr
   class ClipPhotoCommand < Subcommand
 
     def initialize
+      super
       @options = {
-        :repository => "",
+        :repository => @config["repository"],
         :page_url   => "",
         :tags       => "",
         :add_tags   => false,
