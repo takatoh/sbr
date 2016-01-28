@@ -12,8 +12,9 @@ module Sbr
   class PostPhotoCommand < Subcommand
 
     def initialize
+      super
       @options = {
-        :repository => "",
+        :repository => @config["repository"],
         :source     => "",
         :page_url   => "",
         :tags       => "",
