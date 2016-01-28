@@ -26,6 +26,8 @@ EOB
         File.open(@config_file, "w") do |f|
           f.print @config.to_yaml
         end
+      else
+        print help
       end
     end
 
