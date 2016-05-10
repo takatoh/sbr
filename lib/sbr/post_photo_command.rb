@@ -41,6 +41,9 @@ EOB
         photos = YAML.load_file(@options[:input])
         photos.each do |photo|
           if File.exist?(photo["file"])
+            if @options[:tags]
+              photo["tags"] = photo["tags"] + " " + @options[:tags]
+            end
             post_photo(photo["file"], photo)
           else
             puts photo["file"]
