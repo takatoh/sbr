@@ -19,6 +19,7 @@ Subcommands:
     clip        Clip photo.
     scrape      Scrape page.
     config      Set or get config.
+    get-photo   Get photo(s).
 
 Global Options:
   EndBanner
@@ -32,10 +33,11 @@ Global Options:
   }
 
   subcommands = {}
-  subcommands['post']   = Sbr::PostPhotoCommand.new
-  subcommands['clip']   = Sbr::ClipPhotoCommand.new
-  subcommands['scrape'] = Sbr::ScrapePageCommand.new
-  subcommands['config'] = Sbr::ConfigCommand.new
+  subcommands['post']      = Sbr::PostPhotoCommand.new
+  subcommands['clip']      = Sbr::ClipPhotoCommand.new
+  subcommands['scrape']    = Sbr::ScrapePageCommand.new
+  subcommands['config']    = Sbr::ConfigCommand.new
+  subcommands['get-photo'] = Sbr::GetPhotoCommand.new
   begin
     parser.order!
     if ARGV.empty?
