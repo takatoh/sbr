@@ -33,7 +33,7 @@ EOB
       photos = unless argv.empty?
         api_url = @options[:repository] + "api/photo/" + argv.first
         json = @hc.get(api_url).body
-        [JSON.parse(json)]
+        JSON.parse(json)
       else
         api_url = @options[:repository] + "api/photos"
         query = [:limit, :offset].map do |o|
