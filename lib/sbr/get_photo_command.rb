@@ -40,7 +40,6 @@ EOB
           @options[o] ? "#{o.to_s}=#{@options[o]}" : nil
         end.compact.join("&")
         api_url += "?#{query}" unless query.empty?
-        puts api_url
         json = @hc.get(api_url).body
         JSON.parse(json)
       end
