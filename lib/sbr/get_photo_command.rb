@@ -30,19 +30,17 @@ EOB
 
     def exec(argv)
       @hc = HTTPClient.new
-      photos = unless argv.empty?
+      unless argv.empty?
         api_url = @options[:repository] + "api/photo/" + argv.first
-        json = @hc.get(api_url).body
-        JSON.parse(json)
       else
         api_url = @options[:repository] + "api/photos"
         query = [:limit, :offset].map do |o|
           @options[o] ? "#{o.to_s}=#{@options[o]}" : nil
         end.compact.join("&")
         api_url += "?#{query}" unless query.empty?
-        json = @hc.get(api_url).body
-        JSON.parse(json)
       end
+      json = @hc.get(api_url).body
+      photos = JSON.parse(json)
       photos.each do |photo|
         puts "Id:        #{photo['id']}"
         puts "File name: #{photo['fileName']}"
