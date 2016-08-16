@@ -20,6 +20,7 @@ Subcommands:
     scrape      Scrape page.
     config      Set or get config.
     get-photo   Get photo(s).
+    get-post    Get post(s).
 
 Global Options:
   EndBanner
@@ -38,6 +39,7 @@ Global Options:
   subcommands['scrape']    = Sbr::ScrapePageCommand.new
   subcommands['config']    = Sbr::ConfigCommand.new
   subcommands['get-photo'] = Sbr::GetPhotoCommand.new
+  subcommands['get-post']  = Sbr::GetPostCommand.new
   begin
     parser.order!
     if ARGV.empty?
