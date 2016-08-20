@@ -42,7 +42,7 @@ EOB
         photos.each do |photo|
           if File.exist?(photo["file"])
             if @options[:tags]
-              photo["tags"] = photo["tags"] + " " + @options[:tags]
+              photo["tags"] = (photo["tags"] + " " + @options[:tags]).strip
             end
             post_photo(photo["file"], photo)
           else
