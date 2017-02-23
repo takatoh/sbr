@@ -4,6 +4,7 @@
 require 'sbr/subcommand'
 require 'httpclient'
 require 'yaml'
+require 'find'
 require 'optparse'
 
 
@@ -54,7 +55,7 @@ EOB
       elsif File.file?(photofile)
         post_photo(photofile)
       elsif File.directory?(photofile)
-        Dir.glob("#{photofile}/*.*").each do |f|
+        Find.find(photofile).each do |f|
           if photo?(f)
             post_photo(f)
           end
