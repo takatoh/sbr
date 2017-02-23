@@ -55,9 +55,14 @@ EOB
       elsif File.file?(photofile)
         post_photo(photofile)
       elsif File.directory?(photofile)
+        opts = if File.exist?("#{photofile}/sbr.info")
+          opts = YAML.load_file("#{photofile}/sbr.info")
+        else
+          {}
+        end
         Find.find(photofile).each do |f|
           if photo?(f)
-            post_photo(f)
+            post_photo(f, opts)
           end
         end
       end
