@@ -1,4 +1,4 @@
-# Sbr
+# sbr
 
 Post/clip photo(s) to Sombrero
 
