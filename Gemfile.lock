@@ -1,0 +1,29 @@
+PATH
+  remote: .
+  specs:
+    sbr (0.4.8)
+      httpclient
+      nokogiri
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    httpclient (2.8.3)
+    mini_portile2 (2.8.5)
+    nokogiri (1.16.0)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
+    racc (1.7.3)
+    rake (13.1.0)
+
+PLATFORMS
+  x64-mingw-ucrt
+  x64-mingw32
+
+DEPENDENCIES
+  bundler (~> 2.4.10)
+  rake
+  sbr!
+
+BUNDLED WITH
+   2.4.10
