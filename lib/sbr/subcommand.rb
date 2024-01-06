@@ -36,17 +36,19 @@ module Sbr
 
     def post_photo(photofile, opts = {})
       puts photofile
-      File.open(photofile, "rb") do |file|
+      #File.open(photofile, "rb") do |file|
         post_data = {
           "url"      => opts["url"]      || @options[:source],
           "page_url" => opts["page_url"] || @options[:page_url],
           "tags"     => opts["tags"]     || @options[:tags],
-          "file"     => file
+          "file"     => HTTP::FormData::File.new(photofile)
         }
         post_data["add_tags"] = true if opts["add_tags"] || @options[:add_tags]
         post_url = @options[:repository] + "api/post"
-        res = @hc.post(post_url, post_data)
-        result = JSON.parse(res.body)
+        #res = @hc.post(post_url, post_data)
+        #result = JSON.parse(res.body)
+        res = HTTP.post(post_url, :form => post_data)
+        result = JSON.parse(res.to_s)
         if result["status"] == "Accepted"
           photo = result["photo"]
           puts "  => Accepted: id=#{photo['id']} size=#{photo['width']}x#{photo['height']}"
@@ -66,7 +68,7 @@ module Sbr
             @counter[:rejected] += 1
           end
         end
-      end
+      #end
     end
 
     def clip_photo(photourl, opts = {})

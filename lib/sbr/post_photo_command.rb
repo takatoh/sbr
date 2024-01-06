@@ -2,7 +2,7 @@
 
 
 require 'sbr/subcommand'
-require 'httpclient'
+require 'http'
 require 'yaml'
 require 'find'
 require 'optparse'
@@ -37,7 +37,7 @@ EOB
 
     def exec(argv)
       photofile = argv.shift
-      @hc = HTTPClient.new
+      #@hc = HTTPClient.new
       if @options[:input]
         photos = YAML.load_file(@options[:input])
         photos.each do |photo|
