@@ -39,10 +39,10 @@ EOB
       scraper.linked_images.each do |img|
         photourl = img[:image_url]
         opts = {
-         "page_url" => img[:page_url],
-         "tags"     => @options[:tags],
-         "add_tags" => @options[:add_tags],
-         "force"    => @options[:force]
+          "page_url" => img[:page_url],
+          "tags"     => @options[:tags],
+          "add_tags" => @options[:add_tags],
+          "force"    => @options[:force]
         }
         clip_photo(photourl, opts)
       end
