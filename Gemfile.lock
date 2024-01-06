@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sbr (0.4.8)
+    sbr (0.5.0)
       http
       nokogiri
 
