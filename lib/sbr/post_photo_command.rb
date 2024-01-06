@@ -37,7 +37,6 @@ EOB
 
     def exec(argv)
       photofile = argv.shift
-      #@hc = HTTPClient.new
       if @options[:input]
         photos = YAML.load_file(@options[:input])
         photos.each do |photo|

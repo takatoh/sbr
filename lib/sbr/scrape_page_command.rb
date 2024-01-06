@@ -36,7 +36,6 @@ EOB
       pageurl = argv.shift
       scraper = Sbr::Scraper.new(pageurl, @options)
       scraper.scrape
-      #@hc = HTTPClient.new
       scraper.linked_images.each do |img|
         photourl = img[:image_url]
         opts = {

@@ -29,7 +29,6 @@ EOB
     end
 
     def exec(argv)
-      #@hc = HTTPClient.new
       unless argv.empty?
         api_url = @options[:repository] + "api/post/" + argv.first
       else
@@ -39,8 +38,6 @@ EOB
         end.compact.join("&")
         api_url += "?#{query}" unless query.empty?
       end
-      #json = @hc.get(api_url).body
-      #posts = JSON.parse(json)
       response = HTTP.get(api_url)
       posts = JSON.parse(response.to_s)
       posts.each do |post|

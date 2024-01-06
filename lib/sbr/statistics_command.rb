@@ -25,11 +25,8 @@ EOB
     end
 
     def exec(argv)
-      #@hc = HTTPClient.new
       api_url = @options[:repository] + "api/statistics"
-      #json = @hc.get(api_url).body
       response = HTTP.get(api_url)
-#      json = JSON.parse(body.to_s)
       statistics = JSON.parse(response.to_s)['statistics']
       puts "Photos:  #{statistics['photos']}"
       puts "Posts:   #{statistics['posts']}"

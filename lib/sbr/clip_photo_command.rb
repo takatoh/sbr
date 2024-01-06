@@ -34,7 +34,6 @@ EOB
     end
 
     def exec(argv)
-      #@hc = HTTPClient.new
       photos = if @options[:input]
         File.readlines(@options[:input]).map{|l| l.chomp }
       else
