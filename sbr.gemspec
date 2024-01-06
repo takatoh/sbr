@@ -20,7 +20,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 2.4.10"
   spec.add_development_dependency "rake"
-  spec.add_runtime_dependency "httpclient"
   spec.add_runtime_dependency "http"
   spec.add_runtime_dependency "nokogiri"
 end
