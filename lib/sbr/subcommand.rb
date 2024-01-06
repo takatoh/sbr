@@ -79,8 +79,9 @@ module Sbr
         "force"    => opts["force"]
       }
       post_url = @options[:repository] + "api/clip"
-      res = @hc.post(post_url, post_data)
-      result = JSON.parse(res.body)
+      #res = @hc.post(post_url, post_data)
+      res = HTTP.post(post_url, :form => post_data)
+      result = JSON.parse(res.to_s)
       if result["status"] == "Accepted"
         photo = result["photo"]
         puts "  => Accepted: id=#{photo['id']} size=#{photo['width']}x#{photo['height']}"

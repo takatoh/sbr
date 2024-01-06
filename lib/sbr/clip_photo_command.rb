@@ -2,7 +2,7 @@
 
 
 require 'sbr/subcommand'
-require 'httpclient'
+require 'http'
 require 'optparse'
 
 
@@ -34,7 +34,7 @@ EOB
     end
 
     def exec(argv)
-      @hc = HTTPClient.new
+      #@hc = HTTPClient.new
       photos = if @options[:input]
         File.readlines(@options[:input]).map{|l| l.chomp }
       else
