@@ -2,7 +2,7 @@
 
 
 require 'sbr/subcommand'
-require 'httpclient'
+require 'http'
 require 'json'
 require 'optparse'
 
@@ -34,7 +34,7 @@ EOB
     end
 
     def exec(argv)
-      @hc = HTTPClient.new
+      #@hc = HTTPClient.new
       if @options[:md5]
         unless argv.empty?
           api_url = @options[:repository] + "api/photo/md5/" + argv.shift
@@ -53,8 +53,10 @@ EOB
           api_url += "?#{query}" unless query.empty?
         end
       end
-      json = @hc.get(api_url).body
-      photos = JSON.parse(json)
+      #json = @hc.get(api_url).body
+      #photos = JSON.parse(json)
+      response = HTTP.get(api_url)
+      photos = JSON.parse(response.to_s)
       if @options[:json]
         puts JSON.pretty_generate(photos)
       else
