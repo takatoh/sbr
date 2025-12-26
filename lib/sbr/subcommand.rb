@@ -104,6 +104,15 @@ module Sbr
       %w(.jpg .jpeg .png .bmp .gif).include?(File.extname(file))
     end
 
+    def print_stats(counter)
+      puts ""
+      puts "Accepted:   #{counter[:accepted]}"
+      puts "Rejected:   #{counter[:rejected]}"
+      puts "Added tags: #{counter[:added_tags]}"
+      puts "Error:      #{counter[:error]}"
+      puts "Total:      #{counter[:accepted] + counter[:rejected] + counter[:added_tags] + counter[:error]}"
+    end
+
   end
 
 end
