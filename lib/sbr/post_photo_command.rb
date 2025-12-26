@@ -65,12 +65,7 @@ EOB
           end
         end
       end
-      puts ""
-      puts "Accepted:   #{@counter[:accepted]}"
-      puts "Rejected:   #{@counter[:rejected]}"
-      puts "Added tags: #{@counter[:added_tags]}"
-      puts "Error:      #{@counter[:error]}"
-      puts "Total:      #{@counter[:accepted] + @counter[:rejected] + @counter[:added_tags] + @counter[:error]}"
+      print_stats(@counter)
     end
 
   end
