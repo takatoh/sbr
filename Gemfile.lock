@@ -8,8 +8,8 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.8.6)
-      public_suffix (>= 2.0.2, < 6.0)
+    addressable (2.9.0)
+      public_suffix (>= 2.0.2, < 8.0)
     domain_name (0.6.20231109)
     ffi (1.16.3)
     ffi-compiler (1.0.1)
@@ -26,21 +26,16 @@ GEM
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
-    mini_portile2 (2.8.9)
-    nokogiri (1.18.9)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.18.9-x64-mingw-ucrt)
       racc (~> 1.4)
     nokogiri (1.18.9-x86_64-linux-gnu)
       racc (~> 1.4)
-    public_suffix (5.0.4)
+    public_suffix (7.0.5)
     racc (1.8.1)
     rake (13.1.0)
 
 PLATFORMS
   x64-mingw-ucrt
-  x64-mingw32
   x86_64-linux
 
 DEPENDENCIES
